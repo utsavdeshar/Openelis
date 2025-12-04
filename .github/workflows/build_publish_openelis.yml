@@ -47,21 +47,22 @@ jobs:
           rm setArtifactVersion.sh
       - name: Package
         run: ant dist
-       - name: Generate OpenElis.zip
+            - name: Package
+        run: ant dist
+
+      - name: Generate OpenElis.zip
         run: |
           echo "Generating OpenElis.zip from migration folders..."
-          mkdir -p tmp_artifacts/OpenElis
-          # Copy migration folders into tmp_artifacts/OpenElis
-          cp -r db_backup tmp_artifacts/OpenElis/db_backup
-          cp -r liquibase tmp_artifacts/OpenElis/liquibase
-          cp -r scripts tmp_artifacts/OpenElis/scripts
-          # Create the ZIP
-          cd tmp_artifacts
+          mkdir -p OpenElis
+          # Copy migration folders
+          cp -r package/docker/openelis/db_backup OpenElis/db_backup
+          cp -r package/docker/openelis/liquibase OpenElis/liquibase
+          cp -r package/docker/openelis/scripts OpenElis/scripts
+          # Zip the folder
           zip -r OpenElis.zip OpenElis
-          mv OpenElis.zip ../OpenElis.zip
-          cd ..
           # Verify
           ls -lh OpenElis.zip
+
         
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
