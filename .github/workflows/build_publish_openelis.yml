@@ -47,7 +47,7 @@ jobs:
           rm setArtifactVersion.sh
       - name: Package
         run: ant dist
-            - name: Package
+      - name: Package
         run: ant dist
 
       - name: Generate OpenElis.zip
