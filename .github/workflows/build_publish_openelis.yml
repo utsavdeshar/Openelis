@@ -68,7 +68,7 @@ jobs:
         run: |
           echo "Creating OpenElis.zip from migration folders..."
           mkdir -p tmp_artifacts/OpenElis
-          cp -r package/docker/openelis/db_backup tmp_artifacts/OpenElis/db_backup
+          #cp -r package/docker/openelis/db_backup tmp_artifacts/OpenElis/db_backup
           cp -r package/docker/openelis/liquibase tmp_artifacts/OpenElis/liquibase
           cp -r package/docker/openelis/scripts tmp_artifacts/OpenElis/scripts
           cd tmp_artifacts
