@@ -59,17 +59,15 @@ jobs:
       - name: Package (ant dist)
         run: ant dist
 
+      - name: Debug Ant output
+        run: |
+          echo "==== SEARCHING FOR FILES ===="
+          find . -maxdepth 5 -type f | sort  
+
       - name: Move OpenElis.zip to root
         run: |
           find . -name "OpenElis.zip" -exec cp {} ./OpenElis.zip \;
           ls -lh OpenElis.zip
-
-      - name: Debug Ant output
-        run: |
-          echo "=== Searching for ZIP, WAR, or dist files ==="
-          find . -type f \( -iname "*openelis*" -o -iname "*.zip" -o -iname "*.war" \) -print | sort
-
-
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
