@@ -7,7 +7,7 @@ on:
       - 'release-*'
     tags:
       - '[0-9]+.[0-9]+.[0-9]+'
-    paths-ignore:  
+    paths-ignore:
       - '**.md'
   workflow_run:
     workflows: [Pull Translations from Transifex]
@@ -56,17 +56,25 @@ jobs:
           ./setArtifactVersion.sh
           rm setArtifactVersion.sh
 
-      - name: Package (ant dist)
+      - name: Package OpenELIS WAR
         run: ant dist
 
-      - name: Debug Ant output
+      - name: Debug build output
         run: |
-          echo "==== SEARCHING FOR FILES ===="
-          find . -maxdepth 5 -type f | sort  
+          echo "=== Searching for WAR files ==="
+          find . -type f \( -iname "*openelis*" -o -iname "*.war" \) -print | sort
 
-      - name: Move OpenElis.zip to root
+      - name: Generate OpenElis.zip
         run: |
-          find . -name "OpenElis.zip" -exec cp {} ./OpenElis.zip \;
+          echo "Creating OpenElis.zip from migration folders..."
+          mkdir -p tmp_artifacts/OpenElis
+          cp -r package/docker/openelis/db_backup tmp_artifacts/OpenElis/db_backup
+          cp -r package/docker/openelis/liquibase tmp_artifacts/OpenElis/liquibase
+          cp -r package/docker/openelis/scripts tmp_artifacts/OpenElis/scripts
+          cd tmp_artifacts
+          zip -r OpenElis.zip OpenElis
+          mv OpenElis.zip ../OpenElis.zip
+          cd ..
           ls -lh OpenElis.zip
 
       - name: Set up QEMU
