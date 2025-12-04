@@ -55,9 +55,9 @@ jobs:
           echo "Generating OpenElis.zip from migration folders..."
           mkdir -p OpenElis
           # Copy migration folders
-          cp -r package/docker/openelis/db_backup OpenElis/db_backup
-          cp -r package/docker/openelis/liquibase OpenElis/liquibase
-          cp -r package/docker/openelis/scripts OpenElis/scripts
+          cp -r db_backup OpenElis/db_backup
+          cp -r liquibase OpenElis/liquibase
+          cp -r scripts OpenElis/scripts
           # Zip the folder
           zip -r OpenElis.zip OpenElis
           # Verify
