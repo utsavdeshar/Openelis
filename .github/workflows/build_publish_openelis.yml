@@ -81,11 +81,11 @@ jobs:
           file: package/docker/openelis/Dockerfile
           push: true
           tags: utsavd/openelis:${{env.ARTIFACT_VERSION}},utsavd/openelis:latest
-      - name: Push Translations to Transifex
-        run: |
-          curl -o transifex.sh https://raw.githubusercontent.com/Bahmni/bahmni-infra-utils/main/transifex.sh
-          chmod +x transifex.sh
-          ./transifex.sh push
-          rm transifex.sh
-        env:
-          TX_TOKEN: ${{ secrets.TX_TOKEN }}
+      # - name: Push Translations to Transifex
+      #   run: |
+      #     curl -o transifex.sh https://raw.githubusercontent.com/Bahmni/bahmni-infra-utils/main/transifex.sh
+      #     chmod +x transifex.sh
+      #     ./transifex.sh push
+      #     rm transifex.sh
+      #   env:
+          # TX_TOKEN: ${{ secrets.TX_TOKEN }}
