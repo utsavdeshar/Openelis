@@ -64,8 +64,11 @@ jobs:
           find . -name "OpenElis.zip" -exec cp {} ./OpenElis.zip \;
           ls -lh OpenElis.zip
 
-      - name: Debug
-        run: find . -maxdepth 4 -type f | sort
+      - name: Debug Ant output
+        run: |
+          echo "=== Searching for ZIP, WAR, or dist files ==="
+          find . -type f \( -iname "*openelis*" -o -iname "*.zip" -o -iname "*.war" \) -print | sort
+
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
