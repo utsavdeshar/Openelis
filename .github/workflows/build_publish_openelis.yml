@@ -2,7 +2,7 @@ name: Build and Publish OpenELIS
 on:
   push:
     branches:
-      - master
+      - main
       - 'release-*'
     tags:
       - '[0-9]+.[0-9]+.[0-9]+'
@@ -12,7 +12,7 @@ on:
     workflows: [Pull Translations from Transifex]
     types: [completed]
     branches:
-      - master
+      - main
       - 'release-*'
 
 jobs:
@@ -63,7 +63,7 @@ jobs:
           platforms: linux/amd64,linux/arm64
           file: package/docker/openelis/Dockerfile
           push: true
-          tags: bahmni/openelis:${{env.ARTIFACT_VERSION}},bahmni/openelis:latest
+          tags: utsavd/openelis:${{env.ARTIFACT_VERSION}},utsavd/openelis:latest
       - name: Push Translations to Transifex
         run: |
           curl -o transifex.sh https://raw.githubusercontent.com/Bahmni/bahmni-infra-utils/main/transifex.sh
