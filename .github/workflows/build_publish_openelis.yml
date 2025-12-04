@@ -24,12 +24,11 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      # --- Setup requirements ---
       - name: Setup Java 7 for ant
         uses: actions/setup-java@v4
         with:
-          distribution: 'zulu'
-          java-version: '7'
+          distribution: zulu
+          java-version: 7
 
       - name: Setup Ruby 3.1
         uses: ruby/setup-ruby@v1
@@ -57,22 +56,17 @@ jobs:
           ./setArtifactVersion.sh
           rm setArtifactVersion.sh
 
-      # --- Build the OpenELIS artifact ---
       - name: Package (ant dist)
         run: ant dist
 
-      # --- Move OpenElis.zip into Docker build context root ---
-      - name: Move OpenElis.zip to root of build context
+      - name: Move OpenElis.zip to root
         run: |
-          echo "Searching for OpenElis.zip..."
           find . -name "OpenElis.zip" -exec cp {} ./OpenElis.zip \;
           ls -lh OpenElis.zip
 
-      # (Optional) Debug - ensure WAR exists
-      - name: Debug: list build output
+      - name: Debug
         run: find . -maxdepth 4 -type f | sort
 
-      # --- Docker buildx setup ---
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
 
@@ -85,7 +79,6 @@ jobs:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_TOKEN }}
 
-      # --- Build & push multiarch Docker image ---
       - name: Docker Build and push
         uses: docker/build-push-action@v6
         with:
@@ -93,11 +86,8 @@ jobs:
           platforms: linux/amd64,linux/arm64
           file: package/docker/openelis/Dockerfile
           push: true
-          tags: |
-            utsavd/openelis:${{ env.ARTIFACT_VERSION }}
-            utsavd/openelis:latest
+          tags: utsavd/openelis:${{env.ARTIFACT_VERSION}},utsavd/openelis:latest
 
-      # --- Push translations ---
       - name: Push Translations to Transifex
         run: |
           curl -o transifex.sh https://raw.githubusercontent.com/Bahmni/bahmni-infra-utils/main/transifex.sh
